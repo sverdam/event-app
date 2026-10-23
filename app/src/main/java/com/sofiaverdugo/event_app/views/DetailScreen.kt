@@ -44,6 +44,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTimeFilled
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -98,7 +99,7 @@ fun DetailScreen(viewModel: EventVM, eventId: Int, onBack: () -> Unit) {
                 Button(
                     onClick = onBack,
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(40.dp)
                         .clip(CircleShape),
                     shape = CircleShape,
                     colors = ButtonDefaults.buttonColors(
@@ -110,14 +111,14 @@ fun DetailScreen(viewModel: EventVM, eventId: Int, onBack: () -> Unit) {
                         imageVector = Icons.Default.ChevronLeft,
                         contentDescription = "Back",
                         tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
 
                 Button(
-                    onClick = { Toast.makeText(context, "sharing...", Toast.LENGTH_SHORT).show()},
+                    onClick = { Toast.makeText(context, "Compartiendo...", Toast.LENGTH_SHORT).show()},
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(40.dp)
                         .clip(CircleShape),
                     shape = CircleShape,
                     colors = ButtonDefaults.buttonColors(
@@ -127,9 +128,9 @@ fun DetailScreen(viewModel: EventVM, eventId: Int, onBack: () -> Unit) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.Share,
-                        contentDescription = "Share",
+                        contentDescription = "Compartir",
                         tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
@@ -142,7 +143,7 @@ fun DetailScreen(viewModel: EventVM, eventId: Int, onBack: () -> Unit) {
                 Button(
                     onClick = { viewModel.setLike(event.id) },
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(40.dp)
                         .clip(CircleShape),
                     shape = CircleShape,
                     colors = if(!event.hasLiked){ButtonDefaults.buttonColors(
@@ -158,7 +159,7 @@ fun DetailScreen(viewModel: EventVM, eventId: Int, onBack: () -> Unit) {
                         imageVector = if(!event.hasLiked){Icons.Default.FavoriteBorder} else {Icons.Default.Favorite},
                         contentDescription = "Like",
                         tint = if(!event.hasLiked){MaterialTheme.colorScheme.tertiary} else {Color.White},
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
@@ -254,31 +255,55 @@ fun DetailScreen(viewModel: EventVM, eventId: Int, onBack: () -> Unit) {
 
             }
 
-            Button(
-                onClick = { viewModel.setInterested(event.id) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = if(!event.isInterested){
-                    ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )} else {
-                    ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimary,
-                    contentColor = MaterialTheme.colorScheme.primary
-                )},
-                border = if(!event.isInterested){
-                    BorderStroke(0.dp, MaterialTheme.colorScheme.primary)
-                } else {
-                    BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+            Row( modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Button(
+                    onClick = { viewModel.setInterested(event.id) },
+                    modifier = Modifier.weight(0.5f),
+                    colors = if(!event.isInterested){
+                        ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        )} else {
+                        ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.onPrimary,
+                            contentColor = MaterialTheme.colorScheme.primary
+                        )},
+                    border = if(!event.isInterested){
+                        BorderStroke(0.dp, MaterialTheme.colorScheme.primary)
+                    } else {
+                        BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                    }
+
+                ) {
+                    Text(
+                        if (event.isInterested) "Te interesa"
+                        else "Me interesa"
+                    )
                 }
 
-            ) {
-                Text(
-                    if (event.isInterested) "Te interesa"
-                    else "Me interesa"
-                )
+                Button(
+                    onClick = { Toast.makeText(context, "Agregando al calendario...", Toast.LENGTH_SHORT).show()},
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape),
+                    shape = CircleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White
+                    ),
+                    contentPadding = PaddingValues(0.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CalendarToday,
+                        contentDescription = "Calendario",
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
-
         }
     }
 }
